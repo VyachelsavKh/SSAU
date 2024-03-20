@@ -22,6 +22,14 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             return Encode(Int64.Parse(n));
         }
 
+        public static char ConvertNumToSymbol(int n)
+        {
+            if (n <= 9)
+                return (char)('0' + n);
+            else
+                return (char)('A' + n - 10);
+        }
+
         public static string ConvertToSystem(long n, int basis = 2)
         {
             if (n == 0)
@@ -31,7 +39,7 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 
             while (n != 0)
             {
-                ans += Convert.ToString(n % basis);
+                ans += ConvertNumToSymbol((int)(n % basis));
                 n /= basis;
             }
 
