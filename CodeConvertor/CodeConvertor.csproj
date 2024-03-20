@@ -75,6 +75,8 @@
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\OmegaCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\NumberCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\SystemCoders\DecimalCoder.cs" />
+    <Compile Include="Models\Coders\NumberCoders\SystemCoders\HexCoder.cs" />
+    <Compile Include="Models\Coders\NumberCoders\SystemCoders\OctCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\SystemCoders\SystemCoder.cs" />
     <Compile Include="Models\FileWorker.cs" />
     <Compile Include="Models\StringExtensions.cs" />

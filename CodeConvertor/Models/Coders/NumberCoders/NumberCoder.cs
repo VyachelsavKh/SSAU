@@ -56,6 +56,9 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 
             for (int i = 0; i < n.Length; i++)
             {
+                if (ans >= long.MaxValue / 100)
+                    return null;
+
                 ans *= basis;
 
                 int cur = ConvertSymbolToNum(n[i]);

@@ -182,5 +182,10 @@ namespace CodeConvertor
                 FileWorker.WriteToFile(outputFileName, OutputTextBox.Text);
             }
         }
+
+        private void CopyOutput_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(GetData(OutputTextBox.Text));
+        }
     }
 }
