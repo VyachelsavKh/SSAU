@@ -1,0 +1,15 @@
+C:\Users\Vyacheslav\source\repos\CodeConvertor\bin\Release\CodeConvertor.exe.config
+C:\Users\Vyacheslav\source\repos\CodeConvertor\bin\Release\CodeConvertor.exe
+C:\Users\Vyacheslav\source\repos\CodeConvertor\bin\Release\CodeConvertor.pdb
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.csproj.AssemblyReference.cache
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\MainWindow.g.cs
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\App.g.cs
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor_MarkupCompile.cache
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor_MarkupCompile.lref
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\MainWindow.baml
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.g.resources
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.Properties.Resources.resources
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.csproj.GenerateResource.cache
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.csproj.CoreCompileInputs.cache
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.exe
+C:\Users\Vyacheslav\source\repos\CodeConvertor\obj\Release\CodeConvertor.pdb
