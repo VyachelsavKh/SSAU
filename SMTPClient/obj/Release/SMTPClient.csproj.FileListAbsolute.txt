@@ -1,0 +1,10 @@
+C:\Users\Vyacheslav\source\repos\SMTPClient\bin\Release\SMTPClient.exe.config
+C:\Users\Vyacheslav\source\repos\SMTPClient\bin\Release\SMTPClient.exe
+C:\Users\Vyacheslav\source\repos\SMTPClient\bin\Release\SMTPClient.pdb
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.csproj.AssemblyReference.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.Form1.resources
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.Properties.Resources.resources
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.csproj.GenerateResource.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.csproj.CoreCompileInputs.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.exe
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Release\SMTPClient.pdb

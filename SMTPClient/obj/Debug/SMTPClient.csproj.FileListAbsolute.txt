@@ -1,0 +1,11 @@
+C:\Users\Vyacheslav\source\repos\SMTPClient\bin\Debug\SMTPClient.exe.config
+C:\Users\Vyacheslav\source\repos\SMTPClient\bin\Debug\SMTPClient.exe
+C:\Users\Vyacheslav\source\repos\SMTPClient\bin\Debug\SMTPClient.pdb
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.csproj.AssemblyReference.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.Form1.resources
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.Properties.Resources.resources
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.csproj.GenerateResource.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.csproj.CoreCompileInputs.cache
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.exe
+C:\Users\Vyacheslav\source\repos\SMTPClient\obj\Debug\SMTPClient.pdb
