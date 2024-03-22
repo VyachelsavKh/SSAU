@@ -1,0 +1,11 @@
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\bin\Debug\GrammarAnalyzer.exe.config
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\bin\Debug\GrammarAnalyzer.exe
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\bin\Debug\GrammarAnalyzer.pdb
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.csproj.AssemblyReference.cache
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.Grammar_analyzer.resources
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.Properties.Resources.resources
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.csproj.GenerateResource.cache
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.csproj.CoreCompileInputs.cache
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.exe
+C:\Users\Vyacheslav\source\repos\GrammarAnalyzer\obj\Debug\GrammarAnalyzer.pdb
