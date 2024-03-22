@@ -1,0 +1,33 @@
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.pdb
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.GeneralForm.resources
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.Properties.Resources.resources
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.csproj.GenerateResource.Cache
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.exe
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.pdb
+D:\Doom\Documents\Visual Studio 2010\Projects\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.csprojResolveAssemblyReference.cache
+F:\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe.config
+F:\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe
+F:\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.pdb
+F:\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.csprojResolveAssemblyReference.cache
+F:\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.GeneralForm.resources
+F:\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.Properties.Resources.resources
+F:\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.csproj.GenerateResource.Cache
+F:\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.exe
+F:\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.pdb
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe.config
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.exe
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.pdb
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.pdb
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.GeneralForm.resources
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.Properties.Resources.resources
+C:\Users\Doom\Desktop\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.csproj.GenerateResource.Cache
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe.config
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.exe
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.pdb
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.exe
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\bin\Release\EmailAddressAnalyzer.pdb
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.GeneralForm.resources
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.Properties.Resources.resources
+\\VBOXSVR\Dropbox\others\projects\csharp\EmailAddressAnalyzer\obj\x86\Release\EmailAddressAnalyzer.csproj.GenerateResource.Cache
