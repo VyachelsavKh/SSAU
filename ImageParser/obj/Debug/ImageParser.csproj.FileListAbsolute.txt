@@ -1,0 +1,11 @@
+C:\Users\Vyacheslav\source\repos\ImageParser\bin\Debug\ImageParser.exe.config
+C:\Users\Vyacheslav\source\repos\ImageParser\bin\Debug\ImageParser.exe
+C:\Users\Vyacheslav\source\repos\ImageParser\bin\Debug\ImageParser.pdb
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.csproj.AssemblyReference.cache
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.Form1.resources
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.Properties.Resources.resources
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.csproj.GenerateResource.cache
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.csproj.CoreCompileInputs.cache
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.exe
+C:\Users\Vyacheslav\source\repos\ImageParser\obj\Debug\ImageParser.pdb
