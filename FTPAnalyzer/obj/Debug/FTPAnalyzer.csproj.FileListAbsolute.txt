@@ -1,0 +1,11 @@
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\bin\Debug\FTPAnalyzer.exe.config
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\bin\Debug\FTPAnalyzer.exe
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\bin\Debug\FTPAnalyzer.pdb
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.csproj.AssemblyReference.cache
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.Form1.resources
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.Properties.Resources.resources
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.csproj.GenerateResource.cache
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.csproj.CoreCompileInputs.cache
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.exe
+C:\Users\Vyacheslav\source\repos\FTPAnalyzer\obj\Debug\FTPAnalyzer.pdb
