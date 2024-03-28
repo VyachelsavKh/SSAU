@@ -25,9 +25,9 @@ namespace CodeConvertor.Models.Coders
             set { _delimiterString = value; }
         }
 
-        public abstract CoderResult<string> Encode(string n);
+        public abstract FunctionResult<string> Encode(string n);
 
-        public abstract CoderResult<string> Decode(string s);
+        public abstract FunctionResult<string> Decode(string s);
 
         public override string ToString()
         {

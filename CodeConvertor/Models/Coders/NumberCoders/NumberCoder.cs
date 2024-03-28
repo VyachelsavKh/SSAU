@@ -9,26 +9,26 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 {
     internal abstract class NumberCoder : Coder
     {
-        public abstract CoderResult<string> Encode(ulong n);
+        public abstract FunctionResult<string> Encode(ulong n);
 
-        public override CoderResult<string> Encode(string n)
+        public override FunctionResult<string> Encode(string n)
         {
             if (n == "")
-                return new CoderResult<string>("");
+                return new FunctionResult<string>("");
 
             return Encode(UInt64.Parse(n));
         }
 
-        public abstract CoderResult<ulong> DecodeToDecimal(string n);
+        public abstract FunctionResult<ulong> DecodeToDecimal(string n);
 
-        public override CoderResult<string> Decode(string s)
+        public override FunctionResult<string> Decode(string s)
         {
             if (s == "")
-                return new CoderResult<string>("");
+                return new FunctionResult<string>("");
 
-            CoderResult<ulong> decodeResult = DecodeToDecimal(s);
+            FunctionResult<ulong> decodeResult = DecodeToDecimal(s);
 
-            CoderResult<string> result = new CoderResult<string>(decodeResult.Result.ToString(), decodeResult.Error);
+            FunctionResult<string> result = new FunctionResult<string>(decodeResult.Result.ToString(), decodeResult.Error);
 
             return result;
         }
@@ -69,43 +69,29 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             return -1;
         }
 
-        public static ulong? ConvertToDecimal(string n, uint basis = 2)
+        public static FunctionResult<ulong> ConvertToDecimal(string n, uint basis = 2)
         {
             if (n == null) 
-                return null;
+                return new FunctionResult<ulong>(0, "Не получилось декодировать null");
 
             ulong ans = 0;
 
             for (int i = 0; i < n.Length; i++)
             {
                 if (ans >= long.MaxValue / 30)
-                    return null;
+                    return new FunctionResult<ulong>(0, "Не получилось декодировать, число слишком большое: " + n);
 
                 ans *= basis;
 
                 int cur = ConvertSymbolToNum(n[i]);
 
-                if (cur >= basis)
-                    return null;
-
-                if (cur == -1)
-                    return null;
+                if (cur >= basis || cur == -1)
+                    return new FunctionResult<ulong>(0, "Не получилось декодировать, есть неизвестные символы: " + n);
 
                 ans += (ulong)cur;
             }
 
-            return ans;
-        }
-
-        public static bool CheckOnZerosOnes(string s)
-        {
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] != '0' && s[i] != '1')
-                    return false;
-            }
-
-            return true;
+            return new FunctionResult<ulong>(ans);
         }
 
         public static (string inputErrors, string outputResult, string outputErrors) TranslateString(string inputString, NumberCoder inputCoder, NumberCoder outputCoder)
@@ -126,11 +112,11 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 
                 if (inputCoder is BinCoder && outputCoder is HammingCoder)
                 {
-                    CoderResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
+                    FunctionResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
 
                     if (inputRes.IsOk())
                     {
-                        CoderResult<string> outputRes = outputCoder.Encode(inputLines[i]);
+                        FunctionResult<string> outputRes = outputCoder.Encode(inputLines[i]);
 
                         if (!outputRes.IsOk())
                         {
@@ -147,7 +133,7 @@ namespace CodeConvertor.Models.Coders.NumberCoders
                 }
                 else if (inputCoder is HammingCoder && outputCoder is BinCoder)
                 {
-                    CoderResult<string> inputRes = inputCoder.Decode(inputLines[i]);
+                    FunctionResult<string> inputRes = inputCoder.Decode(inputLines[i]);
 
                     if (!inputRes.IsOk())
                     {
@@ -158,11 +144,11 @@ namespace CodeConvertor.Models.Coders.NumberCoders
                 }
                 else
                 {
-                    CoderResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
+                    FunctionResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
 
                     if (inputRes.IsOk())
                     {
-                        CoderResult<string> outputRes = outputCoder.Encode(inputRes.Result);
+                        FunctionResult<string> outputRes = outputCoder.Encode(inputRes.Result);
 
                         if (!outputRes.IsOk())
                         {

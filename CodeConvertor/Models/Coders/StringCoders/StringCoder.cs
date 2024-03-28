@@ -51,7 +51,7 @@ namespace CodeConvertor.Models.Coders.StringCoders
                         continue;
                     }
 
-                    CoderResult<string> outputRes = outputCoder.Encode(inputLines[i]);
+                    FunctionResult<string> outputRes = outputCoder.Encode(inputLines[i]);
 
                     if (!outputRes.IsOk())
                     {
@@ -65,17 +65,11 @@ namespace CodeConvertor.Models.Coders.StringCoders
             {
                 inputString = inputString.Replace("\r", "");
 
-                string[] InputLines = inputString.Split('\n');
-
-                string[] lines = new string[InputLines.Length];
-
-                for (int i = 0, j = 0; i < InputLines.Length; i++)
-                    if (InputLines[i].Length != 0)
-                        lines[j++] = InputLines[i];
+                string[] lines = inputString.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string toDecode = ConcatStrings(lines);
 
-                CoderResult<string> inputRes = inputCoder.Decode(toDecode);
+                FunctionResult<string> inputRes = inputCoder.Decode(toDecode);
 
                 if (!inputRes.IsOk())
                 {

@@ -20,14 +20,14 @@ namespace CodeConvertor.Models.Coders.StringCoders
             DelimiterString = other.DelimiterString;
         }
 
-        public override CoderResult<string> Decode(string s)
+        public override FunctionResult<string> Decode(string s)
         {
-            return new CoderResult<string>(s);
+            return new FunctionResult<string>(s);
         }
 
-        public override CoderResult<string> Encode(string s)
+        public override FunctionResult<string> Encode(string s)
         {
-            return new CoderResult<string>(s);
+            return new FunctionResult<string>(s);
         }
 
     }

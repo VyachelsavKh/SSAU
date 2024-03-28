@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 {
-    internal abstract class UnequalCoder : StringCoder
+    internal abstract class UnequalCoder : SubstitutionCoder
     {
         protected class DecodingTree
         {
@@ -110,7 +110,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 
         protected abstract Dictionary<char, string> CreateCodingDictionary(string s);
 
-        public override CoderResult<string> Encode(string s)
+        public override FunctionResult<string> Encode(string s)
         {
             Dictionary<char, string> CodingDictionary = CreateCodingDictionary(s);
 
@@ -132,49 +132,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 
             ans.Remove(ans.Length - DelimiterString.Length, DelimiterString.Length);
 
-            return new CoderResult<string>(ans.ToString());
-        }
-
-        protected static (Dictionary<char, string>, CoderResult<string>, string) ReadCodingDictionary(string s)
-        {
-            s = s.Replace("\r", "");
-
-            string[] InputLines = s.Split('\n');
-
-            int codesCount;
-
-            string[] lines = new string[InputLines.Length];
-
-            for (int i = 0, j = 0; i < InputLines.Length; i++)
-                if (InputLines[i].Length != 0)
-                    lines[j++] = InputLines[i];                         
-
-            try
-            {
-                codesCount = Int32.Parse(lines[0]);
-            }
-            catch
-            {
-                return (null, new CoderResult<string>("", "Не получилось считать количество строк в таблице кодов"), null);
-            }
-
-            Dictionary<char, string> codingDictionary = new Dictionary<char, string>(codesCount);
-
-            for (int i = 0 + 1; i <= 0 + codesCount; i++)
-            {
-                if (lines[i].Length < 5 || lines[i][1] != ' ')
-                    return (null, new CoderResult<string>("", "Не получилось считать таблицу кодов"), null);
-
-                codingDictionary.Add(lines[i][0], lines[i].Substring(2));
-            }
-
-            string decodeString, remainingString;
-
-            decodeString = lines[codesCount + 1];
-
-            remainingString = ConcatStrings(lines, codesCount + 2);
-
-            return (codingDictionary, new CoderResult<string>(decodeString), remainingString);
+            return new FunctionResult<string>(ans.ToString());
         }
 
         protected static DecodingTree CreateDecodingTree(Dictionary<char, string> EncodingDictionary)
@@ -221,36 +179,36 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
             return tree;
         }
 
-        public override CoderResult<string> Decode(string s)
+        public override FunctionResult<string> Decode(string s)
         {
             if (s == "")
-                return new CoderResult<string>(s);
+                return new FunctionResult<string>(s);
 
             string remainingString;
 
-            Dictionary<char, string> codingDictionary;
+            FunctionResult<Dictionary<char, string>> codingDictionary;
 
-            CoderResult<string> decodeString;
+            string decodeString;
 
             (codingDictionary, decodeString, remainingString) = ReadCodingDictionary(s);
 
-            if (!decodeString.IsOk())
-                return decodeString;
+            if (!codingDictionary.IsOk())
+                return new FunctionResult<string>("", codingDictionary.Error);
 
-            string toDecode = decodeString.Result.RemoveSeparator(DelimiterString);
+            string toDecode = decodeString.RemoveSeparator(DelimiterString);
 
-            if (!NumberCoder.CheckOnZerosOnes(toDecode))
+            if (!toDecode.CheckOnZerosOnes())
             {
-                return new CoderResult<string>("", "Не получилось декодировать, есть неизвестные символы: " + toDecode);
+                return new FunctionResult<string>("", "Не получилось декодировать, есть неизвестные символы: " + toDecode);
             }
 
-            CoderResult<string> res = Decode(codingDictionary, toDecode);
+            FunctionResult<string> res = Decode(codingDictionary.Result, toDecode);
 
             if (res.IsOk())
             {
-                CoderResult<string> res2 = Decode(remainingString);
+                FunctionResult<string> res2 = Decode(remainingString);
 
-                return new CoderResult<string>(res.Result + "\n" + res2.Result, res2.Error);
+                return new FunctionResult<string>(res.Result + "\n" + res2.Result, res2.Error);
             }
             else
             {
@@ -258,7 +216,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
             }
         }
 
-        protected virtual CoderResult<string> Decode(Dictionary<char, string> codingDictionary, string s)
+        protected virtual FunctionResult<string> Decode(Dictionary<char, string> codingDictionary, string s)
         {
             DecodingTree decodingTree = CreateDecodingTree(codingDictionary);
 
@@ -303,9 +261,9 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
             }
 
             if (!successDecode)
-                return new CoderResult<string>(ans.ToString(), "Не получилось декодировать: " + s);
+                return new FunctionResult<string>(ans.ToString(), "Не получилось декодировать: " + s);
             else
-                return new CoderResult<string>(ans.ToString());
+                return new FunctionResult<string>(ans.ToString());
         }
     }
 }

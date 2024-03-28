@@ -57,5 +57,16 @@ namespace CodeConvertor.Models
 
             return s.Split('\n');
         }
+
+        public static bool CheckOnZerosOnes(this string s)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] != '0' && s[i] != '1')
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

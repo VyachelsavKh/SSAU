@@ -13,13 +13,13 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
             _coderDescription = "Дельта-код Элиаса";
         }
 
-        public override CoderResult<string> Encode(ulong n)
+        public override FunctionResult<string> Encode(ulong n)
         {
             if (n == 0)
-                return new CoderResult<string>("", "Не получилось закодировать: 0");
+                return new FunctionResult<string>("", "Не получилось закодировать: 0");
 
             if (n == 1)
-                return new CoderResult<string>("1");
+                return new FunctionResult<string>("1");
 
             string ans = "";
 
@@ -33,40 +33,41 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
 
             ans = G.Encode((ulong)N.Length).Result + ans;
 
-            return new CoderResult<string>(ans);
+            return new FunctionResult<string>(ans);
         }
 
-        public override CoderResult<ulong> DecodeToDecimal(string s)
+        public override FunctionResult<ulong> DecodeToDecimal(string s)
         {
             s = s.RemoveSeparator(DelimiterString);
 
-            if (!CheckOnZerosOnes(s))
-                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
+            if (!s.CheckOnZerosOnes())
+                return new FunctionResult<ulong>(0, "Не получилось декодировать, есть неизвестные символы: " + s);
 
-            int zeros_count = 0;
+            int M = 0;
 
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == '0')
-                    zeros_count++;
+                    M++;
                 else
                     break;
             }
 
-            try
-            {
-                int L = (int)ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1));
+            if (s.Length < M + M + 1)
+                return new FunctionResult<ulong>(0, "Не получилось декодировать часть с L: " + s);
 
-                string N = "1" + s.Substring(zeros_count + zeros_count + 1, L - 1);
+            FunctionResult<ulong> L = ConvertToDecimal(s.Substring(M, M + 1));
 
-                ulong ans = ConvertToDecimal(N).Value;
+            int L_int = (int)L.Result;
 
-                return new CoderResult<ulong>(ans);
-            }
-            catch
-            {
-                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
-            }
+            if (s.Length < M + M + 1 + L_int - 1)
+                return new FunctionResult<ulong>(0, "Не получилось декодировать число: " + s);
+
+            string N = "1" + s.Substring(M + M + 1, L_int - 1);
+
+            ulong ans = ConvertToDecimal(N).Result;
+
+            return new FunctionResult<ulong>(ans);
         }
     }
 }

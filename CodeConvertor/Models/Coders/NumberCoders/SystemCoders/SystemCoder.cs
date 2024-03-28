@@ -24,36 +24,23 @@ namespace CodeConvertor.Models.Coders.NumberCoders.SystemCoders
             _basis = basis;
         }
 
-        public override CoderResult<ulong> DecodeToDecimal(string s)
+        public override FunctionResult<ulong> DecodeToDecimal(string s)
         {
             s = s.RemoveSeparator(DelimiterString);
 
             if (s == "")
-                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
+                return new FunctionResult<ulong>(0, "Не получилось декодировать: " + s);
 
-            ulong? result = ConvertToDecimal(s, _basis);
-
-            CoderResult<ulong> res;
-
-            if (result == null)
-            {
-                res = new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
-            }
-            else
-            {
-                res = new CoderResult<ulong>(result.Value);
-            }
-
-            return res;
+            return ConvertToDecimal(s, _basis);
         }
 
-        public override CoderResult<string> Encode(ulong n)
+        public override FunctionResult<string> Encode(ulong n)
         {
             string result = ConvertToSystem(n, _basis);
 
             result = _insertDelimiter(result);
 
-            CoderResult<string> res = new CoderResult<string>(result);
+            FunctionResult<string> res = new FunctionResult<string>(result);
 
             return res;
         }

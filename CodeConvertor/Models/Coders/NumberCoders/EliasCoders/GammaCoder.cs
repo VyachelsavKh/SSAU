@@ -13,13 +13,13 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
             _coderDescription = "Гамма-код Элиаса";
         }
 
-        public override CoderResult<string> Encode(ulong n)
+        public override FunctionResult<string> Encode(ulong n)
         {
             if (n == 0)
-                return new CoderResult<string>("", "Не получилось закодировать: 0");
+                return new FunctionResult<string>("", "Не получилось закодировать: 0");
 
             if (n == 1)
-                return new CoderResult<string>("1");
+                return new FunctionResult<string>("1");
 
             string ans = "";
 
@@ -31,14 +31,14 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
 
             ans = zeros + ans;
 
-            return new CoderResult<string>(ans);
+            return new FunctionResult<string>(ans);
         }
 
-        public override CoderResult<ulong> DecodeToDecimal(string s)
+        public override FunctionResult<ulong> DecodeToDecimal(string s)
         {
             s = s.RemoveSeparator(DelimiterString);
 
-            if (!CheckOnZerosOnes(s))
+            if (!s.CheckOnZerosOnes())
                 throw new FormatException();
 
             int zeros_count = 0;
@@ -52,11 +52,9 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
             }
 
             if (s.Length != zeros_count * 2 + 1)
-                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
+                return new FunctionResult<ulong>(0, "Не получилось декодировать: " + s);
 
-            ulong ans = ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1)).Value;
-
-            return new CoderResult<ulong>(ans);
+            return ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1));
         }
     }
 }

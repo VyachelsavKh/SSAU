@@ -45,7 +45,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
             return CodingDictionary;
         }
 
-        protected override CoderResult<string> Decode(Dictionary<char, string> codingDictionary, string s)
+        protected override FunctionResult<string> Decode(Dictionary<char, string> codingDictionary, string s)
         {
             StringBuilder ans = new StringBuilder();
 
@@ -57,15 +57,15 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
                 .ToDictionary(x => x.Key, x => x.First());
 
             if (!decodingDictionary.ContainsKey("000"))
-                return new CoderResult<string>("", "В таблице кодов нет кода 000");
+                return new FunctionResult<string>("", "В таблице кодов нет кода 000");
 
             foreach (var key in decodingDictionary.Keys)
             {
                 if (!key.EndsWith("00"))
-                    return new CoderResult<string>("", "Код " + key + " не оканчивается на 00");
+                    return new FunctionResult<string>("", "Код " + key + " не оканчивается на 00");
             }
 
-            CoderResult<string> inner()
+            FunctionResult<string> inner()
             {
                 if (zerosCount > 4)
                 {
@@ -81,7 +81,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
                     string dec = prevCode.ToString().Substring(0, codeLength);
 
                     if (!decodingDictionary.ContainsKey(dec))
-                        return new CoderResult<string>("", "Не получилось декодировать последовательность " + dec + ": " + s);
+                        return new FunctionResult<string>("", "Не получилось декодировать последовательность " + dec + ": " + s);
 
                     ans.Append(decodingDictionary[dec]);
 
@@ -94,12 +94,12 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
                     string dec = prevCode.ToString();
 
                     if (!decodingDictionary.ContainsKey(dec))
-                        return new CoderResult<string>("", "Не получилось декодировать последовательность " + dec + ": " + s);
+                        return new FunctionResult<string>("", "Не получилось декодировать последовательность " + dec + ": " + s);
 
                     ans.Append(decodingDictionary[dec]);
                 }
 
-                return new CoderResult<string>();
+                return new FunctionResult<string>();
             }
 
             for (int i = 0; i < s.Length; i++)
@@ -113,7 +113,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
                 {
                     if (zerosCount >= 2)
                     {
-                        CoderResult<string> r = inner();
+                        FunctionResult<string> r = inner();
                         if (!r.IsOk())
                             return r;
 
@@ -127,12 +127,12 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
                 }
             }
 
-            CoderResult<string> res = inner();
+            FunctionResult<string> res = inner();
 
             if (!res.IsOk())
                 return res;
 
-            return new CoderResult<string>(ans.ToString());
+            return new FunctionResult<string>(ans.ToString());
         }
     }
 }

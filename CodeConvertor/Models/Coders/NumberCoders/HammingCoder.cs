@@ -72,11 +72,11 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             return ans;
         }
 
-        public override CoderResult<string> Encode(string n)
+        public override FunctionResult<string> Encode(string n)
         {
             n = n.RemoveSeparator(DelimiterString);
 
-            if (!CheckOnZerosOnes(n))
+            if (!n.CheckOnZerosOnes())
                 throw new ArgumentException();
 
             StringBuilder s = new StringBuilder(AddCheckBits(n));
@@ -120,23 +120,23 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 
             s.Remove(0, 1);
 
-            return new CoderResult<string>(s.ToString());
+            return new FunctionResult<string>(s.ToString());
         }
 
-        public override CoderResult<string> Encode(ulong n)
+        public override FunctionResult<string> Encode(ulong n)
         {
             return Encode(ConvertToSystem(n));
         }
 
-        public override CoderResult<string> Decode(string s)
+        public override FunctionResult<string> Decode(string s)
         {
             if (DelimiterString != "")
             {
                 s = s.RemoveSeparator("(");
                 s = s.RemoveSeparator(")");
             }
-            if (!CheckOnZerosOnes(s))
-                return new CoderResult<string>("", "Не получилось декодировать: " + s);
+            if (!s.CheckOnZerosOnes())
+                return new FunctionResult<string>("", "Не получилось декодировать: " + s);
 
             string workWith = '_' + s;
 
@@ -155,7 +155,7 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             }
 
             if (errorControlBitsSum > workWith.Length)
-                return new CoderResult<string>("", "Не получилось декодировать: " + s);
+                return new FunctionResult<string>("", "Не получилось декодировать: " + s);
 
             StringBuilder str = new StringBuilder(workWith.Length);
 
@@ -181,19 +181,19 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 
             if (errorControlBitsSum != 0)
             {
-                return new CoderResult<string>(str.ToString(), "Ошибка в " + errorControlBitsSum + " бите: " + s);
+                return new FunctionResult<string>(str.ToString(), "Ошибка в " + errorControlBitsSum + " бите: " + s);
             }
 
-            return new CoderResult<string>(str.ToString());
+            return new FunctionResult<string>(str.ToString());
         }
 
-        public override CoderResult<ulong> DecodeToDecimal(string n)
+        public override FunctionResult<ulong> DecodeToDecimal(string n)
         {
-            CoderResult<string> res = Decode(n);
+            FunctionResult<string> res = Decode(n);
 
-            ulong? result = ConvertToDecimal(res.Result);
+            ulong result = ConvertToDecimal(res.Result).Result;
 
-            return new CoderResult<ulong>(result.Value, res.Error);
+            return new FunctionResult<ulong>(result, res.Error);
         }
     }
 }

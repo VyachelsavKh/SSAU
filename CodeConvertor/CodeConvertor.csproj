@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Coders\Coder.cs" />
-    <Compile Include="Models\Coders\CoderResult.cs" />
+    <Compile Include="Models\FunctionResult.cs" />
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\DeltaCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\GammaCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\OmegaCoder.cs" />
