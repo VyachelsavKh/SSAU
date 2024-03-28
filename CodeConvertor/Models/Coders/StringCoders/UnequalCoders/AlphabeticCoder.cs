@@ -61,6 +61,8 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 
             foreach (var key in decodingDictionary.Keys)
             {
+                if (!key.CheckOnZerosOnes())
+                    return new FunctionResult<string>("", "Неизвестные символы в коде: " + key);
                 if (!key.EndsWith("00"))
                     return new FunctionResult<string>("", "Код " + key + " не оканчивается на 00");
             }

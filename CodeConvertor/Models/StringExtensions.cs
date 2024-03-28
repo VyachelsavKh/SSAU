@@ -53,8 +53,6 @@ namespace CodeConvertor.Models
 
         public static string[] GetLines(this string s)
         {
-            s = s.Replace("\r", "");
-
             return s.Split('\n');
         }
 

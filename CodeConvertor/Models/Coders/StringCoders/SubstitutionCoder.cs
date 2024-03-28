@@ -6,66 +6,84 @@ using System.Threading.Tasks;
 
 namespace CodeConvertor.Models.Coders.StringCoders
 {
-    internal abstract class SubstitutionCoder : StringCoder
+    internal class SubstitutionCoder : StringCoder
     {
-        protected static (FunctionResult<Dictionary<char, string>>, string decodeString, string remainingString) ReadCodingDictionary(string s)
+        public SubstitutionCoder()
         {
-            string[] InputLines = s.Split('\n');
+            _coderDescription = "Кодирование подстановками";
+        }
 
-            int codesCount;
+        public override FunctionResult<string> Encode(string s)
+        {
+            if (s == "")
+                return new FunctionResult<string>(s);
 
-            string[] lines = new string[InputLines.Length];
+            FunctionResult<Dictionary<char, string>> codingDictionary;
 
-            for (int i = 0, j = 0; i < InputLines.Length; i++)
-                if (InputLines[i].Length != 0)
-                    lines[j++] = InputLines[i];
+            string stringsCount;
 
-            try
+            string encodeStrings;
+
+            (codingDictionary, stringsCount, encodeStrings) = ReadCodingDictionary(s);
+
+            if (!codingDictionary.IsOk())
+                return new FunctionResult<string>("", codingDictionary.Error);
+
+            int encodeStringCount;
+
+            try 
             {
-                codesCount = Int32.Parse(lines[0]);
+                encodeStringCount = Int32.Parse(stringsCount);
             }
             catch
             {
-                return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать количество строк в таблице кодов"), null, null);
+                return new FunctionResult<string>("", "Не получилось прочитать количество строк для кодирования");
             }
 
-            if (lines.Length < codesCount + 1)
-                return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать таблицу кодов, мало строк кодов"),null, null);
+            string[] lines = encodeStrings.GetLines();
 
-            Dictionary<char, string> codingDictionary = new Dictionary<char, string>(codesCount);
+            StringBuilder ans = new StringBuilder();
+            StringBuilder errors = new StringBuilder();
 
-            for (int i = 1; i <= codesCount; i++)
+            Dictionary<char, string> encoding = codingDictionary.Result;
+
+            for (int i = 0; i < encodeStringCount && i < lines.Length; i++)
             {
-                if (lines[i].Length < 3)
-                    return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать элемент таблицы кодов, нет кода: " + lines[i]), null, null);
+                StringBuilder curAns = new StringBuilder(lines[i].Length * 3);
 
-                if (lines[i][1] != ' ')
-                    return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать элемент таблицы кодов, неправильный разделитель: " + lines[i]), null, null);
+                for (int j = 0; j < lines[i].Length; j++)
+                {
+                    if (!encoding.ContainsKey(lines[i][j]))
+                    {
+                        errors.Append("Не получилось закодировать символ " + lines[i][j] + " из строки: "  + lines[i] + "\n");
+                        break;
+                    }
+                    else
+                    {
+                        curAns.Append(encoding[lines[i][j]]);
 
+                        curAns.Append(DelimiterString);
+                    }
+                }
 
-                char symbol = lines[i][0];
-                string code = lines[i].Substring(2);
+                if (curAns.Length > DelimiterString.Length)
+                    curAns.Remove(curAns.Length - DelimiterString.Length, DelimiterString.Length);
 
-                if (!code.CheckOnZerosOnes())
-                    return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать элемент таблицы кодов, в коде есть неизвестные символы: " + lines[i]), null, null);
-
-                if (codingDictionary.ContainsKey(symbol))
-                    return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать элемент таблицы кодов, повторяющийся символ: " + lines[i]), null, null);
-
-                codingDictionary.Add(symbol, code);
+                ans.Append(curAns.ToString() + "\n");
             }
 
-            string decodeString, remainingString;
+            ans.Remove(ans.Length - 1, 1);
 
-            if (lines.Length < codesCount + 2) 
-                return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать строку для декодирования: "), null, null);
+            string remainingString = ConcatStrings(lines, encodeStringCount);
 
-            decodeString = lines[codesCount + 1];
+            FunctionResult<string> res = Encode(remainingString);
 
-            remainingString = ConcatStrings(lines, codesCount + 2);
-
-            return (new FunctionResult<Dictionary<char, string>>(codingDictionary), decodeString, remainingString);
+            return new FunctionResult<string>(ans.ToString() + "\n" + res.Result, errors.ToString() + res.Error);
         }
 
+        public override FunctionResult<string> Decode(string s)
+        {
+            return new FunctionResult<string>("", "Нет декодера");
+        }
     }
 }

@@ -77,6 +77,7 @@ namespace CodeConvertor
             {
                 new SimpleString(),
                 new AlphabeticCoder(),
+                new SubstitutionCoder(),
             };
 
             numberCoders = new NumberCoder[]

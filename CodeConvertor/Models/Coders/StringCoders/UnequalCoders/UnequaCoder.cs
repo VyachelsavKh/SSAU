@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 {
-    internal abstract class UnequalCoder : SubstitutionCoder
+    internal abstract class UnequalCoder : StringCoder
     {
         protected class DecodingTree
         {
