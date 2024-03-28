@@ -8,15 +8,30 @@ namespace CodeConvertor.Models.Coders
 {
     internal abstract class Coder
     {
-        protected string _name;
+        protected string _coderDescription;
 
-        public abstract string Encode(string n);
+        private string _delimiterString;
 
-        public abstract long Decode(string s);
+        public Coder() { }
+
+        public Coder(Coder other)
+        {
+            _delimiterString = other.DelimiterString;
+        }
+
+        public string DelimiterString
+        {
+            get { return _delimiterString; }
+            set { _delimiterString = value; }
+        }
+
+        public abstract CoderResult<string> Encode(string n);
+
+        public abstract CoderResult<string> Decode(string s);
 
         public override string ToString()
         {
-            return _name;
+            return _coderDescription;
         }
     }
 }

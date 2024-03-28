@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodeConvertor"
         mc:Ignorable="d"
-        Title="Числовой конвертер" Height="600" Width="590" WindowStartupLocation="CenterScreen" FontFamily="Arial" FontSize="16" Background="#FFE2E2E2" MinWidth="590" MinHeight="300" PreviewKeyDown="Window_PreviewKeyDown" SizeChanged="Window_SizeChanged">
+        Title="Числовой конвертер" 
+        Height="600" Width="1020" 
+        MinHeight="300" MinWidth="545"
+        WindowStartupLocation="CenterScreen" FontFamily="Arial" FontSize="16" Background="#FFE2E2E2" PreviewKeyDown="Window_PreviewKeyDown" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="InputRow" Width="295*"/>
@@ -13,51 +16,56 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="MenuRow" Height="80"/>
-            <RowDefinition x:Name="TextRow" Height="1*"/>
+            <RowDefinition x:Name="ResultRow" Height="75*"/>
+            <RowDefinition x:Name="ErrortRow" Height="25*"/>
         </Grid.RowDefinitions>
 
-        <WrapPanel x:Name="InputTopPanel" Margin="5,5,5,0" VerticalAlignment="Top">
-            <Menu x:Name="InputFileMenu" Height="30" Margin="5,5,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <MenuItem Header="Файл" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" BorderBrush="#FF868585">
+        <WrapPanel x:Name="InputTopPanel" Margin="5,5,10,0" VerticalAlignment="Top">
+            <Menu x:Name="InputFileMenu" Height="30" Width="50" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <MenuItem Header="Файл" FontSize="16" Height="30" Width="50" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="#FF868585">
                     <MenuItem Header="Открыть" Click="OpenInput_Click"/>
                     <MenuItem Header="Сохранить" Click="SaveInput_Click"/>
                     <MenuItem Header="Сохранить как" Click="SaveAsInput_Click"/>
                 </MenuItem>
             </Menu>
-            <ComboBox x:Name="InputCoder" Margin="5,5,0,0" VerticalAlignment="Top" Width="175" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" SelectionChanged="CoderSelectionChanged" HorizontalAlignment="Left"/>
-            <Button x:Name="ClearInput" Content="Очистить" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="100" Grid.Column="0" Margin="5,5,0,0" Click="ClearInput_Click" Grid.Row="0"/>
-            <Border x:Name="DelimiterBorder" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Margin="5,5,0,0" Height="30">
-                <Grid>
-                    <TextBlock x:Name="DelimeterTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Разделитель:" VerticalAlignment="Center" Height="20" Width="100" TextAlignment="Center"/>
-                    <TextBox x:Name="DelimiterString" HorizontalAlignment="Left" Margin="105,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="55" Height="20" MaxLength="5" MaxLines="1" TextChanged="DelimiterString_TextChanged"/>
+            <ComboBox x:Name="InputCoder" Height="30" Width="175" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" SelectionChanged="InputCoderSelectionChanged"/>
+            <Button x:Name="ClearInput" Content="Очистить" Height="30" Width="80" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ClearInput_Click"/>
+            <Border x:Name="DelimiterBorder" Height="30" Width="160" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Grid  Height="30" Width="160" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <TextBlock x:Name="DelimeterTextBlock" Text="Разделитель:" Height="20" Width="100" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" TextAlignment="Center"/>
+                    <TextBox x:Name="DelimiterString" Height="20" Width="55" Margin="105,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" MaxLength="5" MaxLines="1" TextChanged="DelimiterString_TextChanged"/>
                 </Grid>
             </Border>
         </WrapPanel>
         <Border Margin="10,0,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Grid>
-                <TextBlock x:Name="InputFileName" Margin="125,0,0,0" TextWrapping="Wrap" Text="input.txt" VerticalAlignment="Center" Height="20"/>
-                <TextBlock x:Name="InputFileBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Входной файл:" VerticalAlignment="Center" Height="20" Width="120"/>
+                <TextBlock x:Name="InputFileName" Text="input.txt" Height="20" Margin="125,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                <TextBlock x:Name="InputFileBlock" Text="Входной файл:" Height="20" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"/>
             </Grid>
         </Border>
-        <TextBox x:Name="InputTextBox" Margin="10,25,10,10" Grid.Row="1" TextWrapping="Wrap" Text="" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" TextChanged="InputTextBox_TextChanged" Grid.RowSpan="2"/>
+        <TextBox x:Name="InputTextBox" Margin="10,25,10,0" Grid.Row="1" Text="" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextChanged="InputTextBox_TextChanged"/>
 
-        <WrapPanel x:Name="OutputTopPanel" Margin="5,5,5,5" Grid.Column="1" VerticalAlignment="Top">
-            <Menu x:Name="OutputFileMenu" Height="30" Margin="5,5,0,0" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1">
-                <MenuItem Header="Файл" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" BorderBrush="#FF868585">
+        <WrapPanel x:Name="OutputTopPanel" Margin="5,5,10,5" Grid.Column="1" VerticalAlignment="Top">
+            <Menu x:Name="OutputFileMenu" Height="30" Width="50" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="1">
+                <MenuItem Header="Файл" FontSize="16" Height="30" Width="50" VerticalAlignment="Center" HorizontalAlignment="Left" BorderBrush="#FF868585">
                     <MenuItem Header="Сохранить" Click="SaveOutput_Click"/>
                     <MenuItem Header="Сохранить как" Click="SaveAsOutput_Click"/>
                 </MenuItem>
             </Menu>
-            <ComboBox x:Name="OutputCoder" Margin="5,5,0,0" VerticalAlignment="Top" Width="175" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" SelectionChanged="CoderSelectionChanged"/>
-            <Button x:Name="ChangeCodes" Content="Поменять коды" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="125" Margin="5,5,0,0" Click="ChangeCodes_Click" Grid.Row="0"/>
-            <Button x:Name="CopyOutput" Content="Копировать" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Height="30" Width="100" Grid.Row="0" Click="CopyOutput_Click"/>
+            <ComboBox x:Name="OutputCoder" Height="30" Width="175" Margin="5,5,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" SelectionChanged="OutputCoderSelectionChanged"/>
+            <Button x:Name="ChangeCodes" Content="Поменять коды" Height="30" Width="125" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="ChangeCodes_Click" Grid.Row="0"/>
+            <Button x:Name="CopyOutput" Content="Копировать" Height="30" Width="100" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="CopyOutput_Click"/>
         </WrapPanel>
         <Border Grid.Column="1" Margin="10,0,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Grid>
-                <TextBlock x:Name="OutputFileName" Margin="130,0,0,0" TextWrapping="Wrap" Text="output.txt" VerticalAlignment="Center" Height="20"/>
-                <TextBlock x:Name="OutputFileBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Выходной файл:" VerticalAlignment="Center" Height="20" Width="125"/>
+                <TextBlock x:Name="OutputFileName" Text="output.txt" Height="20" Margin="130,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock x:Name="OutputFileBlock" Text="Выходной файл:" Height="20" Width="125" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"/>
             </Grid>
         </Border>
-        <TextBox x:Name="OutputTextBox" Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Grid.Column="1" IsReadOnly="True" Margin="10,25,10,10" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="OutputTextBox" Margin="10,25,10,0" Grid.Row="1" AcceptsReturn="True" AcceptsTab="True" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <Label Content="Ошибки при декодировании:" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Ошибки при кодировании:" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="InputCoderErrors" Margin="10,33,10,10" Grid.Row="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <TextBox x:Name="OutputCoderErrors" Margin="10,33,10,10" Grid.Row="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"/>
     </Grid>
 </Window>

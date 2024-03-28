@@ -10,16 +10,16 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
     {
         public GammaCoder()
         {
-            _name = "Гамма-код Элиаса";
+            _coderDescription = "Гамма-код Элиаса";
         }
 
-        public override string Encode(long n)
+        public override CoderResult<string> Encode(ulong n)
         {
             if (n == 0)
-                throw new ArgumentOutOfRangeException();
+                return new CoderResult<string>("", "Не получилось закодировать: 0");
 
             if (n == 1)
-                return "1";
+                return new CoderResult<string>("1");
 
             string ans = "";
 
@@ -31,12 +31,12 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
 
             ans = zeros + ans;
 
-            return ans;
+            return new CoderResult<string>(ans);
         }
 
-        public override long Decode(string s)
+        public override CoderResult<ulong> DecodeToDecimal(string s)
         {
-            s = RemoveSeparator(s, DelimiterString);
+            s = s.RemoveSeparator(DelimiterString);
 
             if (!CheckOnZerosOnes(s))
                 throw new FormatException();
@@ -51,7 +51,12 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
                     break;
             }
 
-            return ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1)).Value;
+            if (s.Length != zeros_count * 2 + 1)
+                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
+
+            ulong ans = ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1)).Value;
+
+            return new CoderResult<ulong>(ans);
         }
     }
 }

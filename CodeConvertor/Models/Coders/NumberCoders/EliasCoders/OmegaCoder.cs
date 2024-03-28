@@ -10,16 +10,16 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
     {
         public OmegaCoder()
         {
-            _name = "Омега-код Элиаса";
+            _coderDescription = "Омега-код Элиаса";
         }
 
-        public override string Encode(long n)
+        public override CoderResult<string> Encode(ulong n)
         {
             if (n == 0)
-                throw new ArgumentOutOfRangeException();
+                return new CoderResult<string>("", "Не получилось закодировать: 0");
 
             if (n == 1)
-                return "0";
+                return new CoderResult<string>("1");
 
             string ans = DelimiterString + "0";
 
@@ -33,37 +33,45 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
 
                 ans = DelimiterString + ans;
 
-                n = N_str.Length - 1;
+                n = (ulong)N_str.Length - 1;
             }
 
             ans = ans.Substring(DelimiterString.Length);
 
-            return ans;
+            return new CoderResult<string>(ans);
         }
 
-        public override long Decode(string s)
+        public override CoderResult<ulong> DecodeToDecimal(string s)
         {
-            s = RemoveSeparator(s, DelimiterString);
+            s = s.RemoveSeparator(DelimiterString);
 
             if (!CheckOnZerosOnes(s))
                 throw new FormatException();
 
-            long N = 1;
+            ulong N = 1;
 
             int i = 0;
 
             string cur_str;
 
-            while (s[i] == '1')
+            try
             {
-                cur_str = s.Substring(i, (int)N + 1);
 
-                i += (int)N + 1;
+                while (s[i] == '1')
+                {
+                    cur_str = s.Substring(i, (int)N + 1);
 
-                N = ConvertToDecimal(cur_str).Value;
+                    i += (int)N + 1;
+
+                    N = ConvertToDecimal(cur_str).Value;
+                }
+
+                return new CoderResult<ulong>(N);
             }
-
-            return N;
+            catch
+            {
+                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
+            }
         }
     }
 }

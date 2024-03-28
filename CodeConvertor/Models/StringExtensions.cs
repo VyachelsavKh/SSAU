@@ -21,5 +21,41 @@ namespace CodeConvertor.Models
             return reversed.ToString();
 
         }
+
+        public static string RemoveSeparator(this string input, string separator)
+        {
+            if (separator != "")
+                return input.Replace(separator, "");
+
+            return input;
+        }
+
+        public static Dictionary<char, int> GetCharacterFrequencies(this string input)
+        {
+            Dictionary<char, int> frequencies = new Dictionary<char, int>(100);
+
+            foreach (char c in input)
+            {
+                if (frequencies.ContainsKey(c))
+                {
+                    frequencies[c]++;
+                }
+                else
+                {
+                    frequencies[c] = 1;
+                }
+            }
+
+            var orderedFrequencies = frequencies.OrderByDescending(x => x.Value);
+
+            return orderedFrequencies.ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        public static string[] GetLines(this string s)
+        {
+            s = s.Replace("\r", "");
+
+            return s.Split('\n');
+        }
     }
 }

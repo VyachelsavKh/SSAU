@@ -10,16 +10,16 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
     {
         public DeltaCoder()
         {
-            _name = "Дельта-код Элиаса";
+            _coderDescription = "Дельта-код Элиаса";
         }
 
-        public override string Encode(long n)
+        public override CoderResult<string> Encode(ulong n)
         {
             if (n == 0)
-                throw new ArgumentOutOfRangeException();
+                return new CoderResult<string>("", "Не получилось закодировать: 0");
 
             if (n == 1)
-                return "1";
+                return new CoderResult<string>("1");
 
             string ans = "";
 
@@ -31,17 +31,17 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
 
             GammaCoder G = new GammaCoder();
 
-            ans = G.Encode(N.Length) + ans;
+            ans = G.Encode((ulong)N.Length).Result + ans;
 
-            return ans;
+            return new CoderResult<string>(ans);
         }
 
-        public override long Decode(string s)
+        public override CoderResult<ulong> DecodeToDecimal(string s)
         {
-            s = RemoveSeparator(s, DelimiterString);
+            s = s.RemoveSeparator(DelimiterString);
 
             if (!CheckOnZerosOnes(s))
-                throw new FormatException();
+                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
 
             int zeros_count = 0;
 
@@ -53,11 +53,20 @@ namespace CodeConvertor.Models.Coders.NumberCoders.EliasCoders
                     break;
             }
 
-            int L = (int)ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1));
+            try
+            {
+                int L = (int)ConvertToDecimal(s.Substring(zeros_count, zeros_count + 1));
 
-            string N = "1" + s.Substring(zeros_count + zeros_count + 1, L - 1);
+                string N = "1" + s.Substring(zeros_count + zeros_count + 1, L - 1);
 
-            return ConvertToDecimal(N).Value;
+                ulong ans = ConvertToDecimal(N).Value;
+
+                return new CoderResult<ulong>(ans);
+            }
+            catch
+            {
+                return new CoderResult<ulong>(0, "Не получилось декодировать: " + s);
+            }
         }
     }
 }

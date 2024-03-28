@@ -10,8 +10,9 @@ namespace CodeConvertor.Models.Coders.NumberCoders.SystemCoders
     {
         public OctCoder()
         {
-            _name = "Восьмеричное число";
+            _coderDescription = "Восьмеричное число";
             _basis = 8;
+            _delimiterInterval = 3;
         }
     }
 }

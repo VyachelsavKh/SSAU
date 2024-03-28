@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace CodeConvertor.Models.Coders.NumberCoders.SystemCoders
 {
-    internal class DecimalCoder : SystemCoder
+    internal class BinCoder : SystemCoder
     {
-        public DecimalCoder() 
+        public BinCoder()
         {
-            _coderDescription = "Десятичное число";
-            _basis = 10;
-            _delimiterInterval = 3;
+            _coderDescription = "Двоичное число";
+            _basis = 2;
+            _delimiterInterval = 4;
         }
     }
 }

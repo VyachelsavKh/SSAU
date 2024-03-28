@@ -10,8 +10,9 @@ namespace CodeConvertor.Models.Coders.NumberCoders.SystemCoders
     {
         public HexCoder()
         {
-            _name = "Шестнадцатеричное число";
+            _coderDescription = "Шестнадцатеричное число";
             _basis = 16;
+            _delimiterInterval = 2;
         }
     }
 }

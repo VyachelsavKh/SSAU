@@ -17,6 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeConvertor.Models.Coders;
+using CodeConvertor.Models.Coders.StringCoders;
+using CodeConvertor.Models.Coders.StringCoders.UnequalCoders;
 
 namespace CodeConvertor
 {
@@ -29,6 +32,12 @@ namespace CodeConvertor
         private bool outputFileTouched;
 
         private NumberCoder[] numberCoders;
+        private StringCoder[] stringCoders;
+
+        private Coder[] inputCoders;
+
+        private enum CoderType { Null, NumberCoder, StringCoder};
+        private CoderType InputCoderType;
 
         public MainWindow()
         {
@@ -44,7 +53,19 @@ namespace CodeConvertor
             InputTextBox.Margin = new Thickness(Left = 10, Top = 5, 10, 10);
             OutputTextBox.Margin = new Thickness(Left = 10, Top = 5, 10, 10);
 
+            CenterWindowOnScreen();
+        }
+
+        private void CenterWindowOnScreen()
+        {
             Activate();
+
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         private void InitializeDefaultValues()
@@ -52,23 +73,99 @@ namespace CodeConvertor
             ChangeInputFileName("input.txt");
             ChangeOutputFileName("output.txt");
 
+            stringCoders = new StringCoder[]
+            {
+                new SimpleString(),
+                new AlphabeticCoder(),
+            };
+
             numberCoders = new NumberCoder[]
             {
                 new DecimalCoder(),
+                new BinCoder(),
+                new HexCoder(),
+                new OctCoder(),
                 new GammaCoder(),
                 new DeltaCoder(),
                 new OmegaCoder(),
-                new HexCoder(),
-                new OctCoder(),
+                new HammingCoder(),
             };
 
-            InputCoder.ItemsSource = numberCoders;
+            inputCoders = new Coder[0];
+            inputCoders = inputCoders.Concat(numberCoders).ToArray();
+            inputCoders = inputCoders.Concat(stringCoders).ToArray();
 
+            InputCoder.ItemsSource = inputCoders;
+
+            InputCoderType = CoderType.Null;
             InputCoder.SelectedIndex = 0;
+        }
 
-            OutputCoder.ItemsSource = numberCoders;
+        private void ConvertInputToOutput()
+        {
+            Coder left = (Coder)InputCoder.SelectedItem;
+            Coder right = (Coder)OutputCoder.SelectedItem;
 
-            OutputCoder.SelectedIndex = 1;
+            if (left != null && right != null)
+            {
+                left.DelimiterString = DelimiterString.Text;
+                right.DelimiterString = DelimiterString.Text;
+
+                if (left is NumberCoder)
+                {
+                    NumberCoder l = left as NumberCoder;
+                    NumberCoder r = right as NumberCoder;
+
+                    (string inputErrors, string outputResult, string outputErrors) = NumberCoder.TranslateString(InputTextBox.Text, l, r);
+
+                    InputCoderErrors.Text = inputErrors;
+                    OutputTextBox.Text = outputResult;
+                    OutputCoderErrors.Text = outputErrors;
+                }
+                else if (left is StringCoder)
+                {
+                    StringCoder l = left as StringCoder;
+                    StringCoder r = right as StringCoder;
+
+                    (string inputErrors, string outputResult, string outputErrors) = StringCoder.TranslateString(InputTextBox.Text, l, r);
+
+                    InputCoderErrors.Text = inputErrors;
+                    OutputTextBox.Text = outputResult;
+                    OutputCoderErrors.Text = outputErrors;
+                }
+            }
+        }
+
+        private void InputCoderSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (InputCoder.SelectedItem is NumberCoder && InputCoderType != CoderType.NumberCoder)
+            {
+                InputCoderType = CoderType.NumberCoder;
+
+                OutputCoder.ItemsSource = numberCoders;
+
+                OutputCoder.SelectedIndex = 1;
+            }
+            else if (InputCoder.SelectedItem is StringCoder && InputCoderType != CoderType.StringCoder)
+            {
+                InputCoderType = CoderType.StringCoder;
+
+                OutputCoder.ItemsSource = stringCoders;
+
+                OutputCoder.SelectedIndex = 1;
+            }
+
+            ConvertInputToOutput();
+        }
+
+        private void OutputCoderSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ConvertInputToOutput();
+        }
+
+        private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ConvertInputToOutput();
         }
 
         private void ChangeInputFileName(string path)
@@ -84,26 +181,6 @@ namespace CodeConvertor
             OutputFileName.Text = FileWorker.GetFilenameFromPath(path);
         }
 
-        private void ConvertInputToOutput()
-        {
-            NumberCoder left = (NumberCoder)InputCoder.SelectedItem;
-            NumberCoder right = (NumberCoder)OutputCoder.SelectedItem;
-
-            if (left != null && right != null)
-            {
-
-                left.DelimiterString = DelimiterString.Text;
-                right.DelimiterString = DelimiterString.Text;
-
-                OutputTextBox.Text = NumberCoder.ConvertString(InputTextBox.Text, left, right);
-            }
-        }
-
-        private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ConvertInputToOutput();
-        }
-
         private void ClearInput_Click(object sender, RoutedEventArgs e)
         {
             InputTextBox.Clear();
@@ -114,6 +191,8 @@ namespace CodeConvertor
         {
             InputTextBox.Margin = new Thickness(Left = 10, Top = 25, 10, 10);
             OutputTextBox.Margin = new Thickness(Left = 10, Top = 25, 10, 10);
+
+            CenterWindowOnScreen();
         }
 
         private void OpenInput_Click(object sender, RoutedEventArgs e)
@@ -216,29 +295,36 @@ namespace CodeConvertor
             ConvertInputToOutput();
         }
 
-        private void CoderSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ConvertInputToOutput();
-        }
-
-        private string GetData(string str)
-        {
-            string ans = str.Replace("Не получилось закодировать: ", "");
-
-            ans = ans.Replace("Не получилось декодировать: ", "");
-
-            return ans;
-        }
-
         private void ChangeCodes_Click(object sender, RoutedEventArgs e)
         {
-            string newInput = GetData(OutputTextBox.Text);
+            string newInput = OutputTextBox.Text;
 
             InputTextBox.Clear();
 
-            int t = OutputCoder.SelectedIndex;
-            OutputCoder.SelectedIndex = InputCoder.SelectedIndex;
-            InputCoder.SelectedIndex = t;
+            Coder inputCoder = (Coder)InputCoder.SelectedItem;
+            Coder outputCoder = (Coder)OutputCoder.SelectedItem;
+
+            int i = 0;
+            foreach (var coder in InputCoder.ItemsSource)
+            {
+                if (coder == outputCoder)
+                { 
+                    InputCoder.SelectedIndex = i;
+                    break;
+                }
+                i++;
+            }
+
+            i = 0;
+            foreach (var coder in OutputCoder.ItemsSource)
+            {
+                if (coder == inputCoder)
+                {
+                    OutputCoder.SelectedIndex = i;
+                    break;
+                }
+                i++;
+            }
 
             InputTextBox.Text = newInput;
             InputTextBox.Focus();
@@ -261,104 +347,34 @@ namespace CodeConvertor
 
         private void CopyOutput_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(GetData(OutputTextBox.Text));
+            Clipboard.SetText(OutputTextBox.Text);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double maxHeight = Math.Max(InputTopPanel.ActualHeight, OutputTopPanel.ActualHeight);
+            double maxHeight = 0;
 
-            MenuRow.Height = new GridLength(maxHeight + 10);
-
-            /*
-            Thickness newMargin = new Thickness();
-
-            bool deleteInputRow = false;
-            bool deleteOutputtRow = false;
-
-            if (InputRow.ActualWidth <= InputCoder.Margin.Left + InputCoder.Width 
-                + 5 + ClearInput.ActualWidth + 10)
+            if (InputTopPanel.ActualWidth >= 485)
             {
-                newMargin.Top = InputMenu.ActualHeight + InputMenu.Margin.Top + 5;
-                newMargin.Left = InputMenu.Margin.Left;
-                ClearInput.Margin = newMargin;
-
-                newMargin.Left += ClearInput.ActualWidth + 5;
-                DelimiterBorder.Margin = newMargin;
-
-                deleteInputRow = false;
-            }
-            else if (InputRow.ActualWidth <= InputCoder.Margin.Left + InputCoder.Width 
-                + 5 + ClearInput.ActualWidth 
-                + 5 + DelimiterBorder.ActualWidth + 10)
-            {
-                newMargin.Top = InputMenu.Margin.Top;
-                newMargin.Left = InputCoder.Width + InputCoder.Margin.Left + 5;
-                ClearInput.Margin = newMargin;
-
-                newMargin.Top += InputMenu.ActualHeight;
-                newMargin.Left = InputMenu.Margin.Left;
-                DelimiterBorder.Margin = newMargin;
-
-                deleteInputRow = false;
+                InputCoder.Width = 175 + InputTopPanel.ActualWidth - 485;
+                maxHeight = 45;
             }
             else
             {
-                newMargin.Top = InputMenu.Margin.Top;
-                newMargin.Left = InputCoder.Width + InputCoder.Margin.Left + 5;
-                ClearInput.Margin = newMargin;
-
-                newMargin.Top = InputCoder.Margin.Top;
-                newMargin.Left = ClearInput.ActualWidth + ClearInput.Margin.Left + 5;
-                DelimiterBorder.Margin = newMargin;
-
-                deleteInputRow = true;
+                InputCoder.Width = 175;
+                maxHeight = 80;
             }
 
-            if (OutputRow.ActualWidth <= OutputCoder.Margin.Left + OutputCoder.Width
-                + 5 + ChangeCodes.ActualWidth + 10)
+            if (OutputTopPanel.ActualWidth >= 470)
             {
-                newMargin.Top = OutputMenu.ActualHeight + OutputMenu.Margin.Top + 5;
-                newMargin.Left = OutputMenu.Margin.Left;
-                ChangeCodes.Margin = newMargin;
-
-                newMargin.Left += ChangeCodes.ActualWidth + 5;
-                CopyOutput.Margin = newMargin;
-
-                deleteOutputtRow = false;
-            }
-            else if (OutputRow.ActualWidth <= OutputCoder.Margin.Left + OutputCoder.Width
-                + 5 + ChangeCodes.ActualWidth
-                + 5 + CopyOutput.ActualWidth + 10)
-            {
-                newMargin.Top = OutputCoder.Margin.Top;
-                newMargin.Left = OutputCoder.Margin.Left + OutputCoder.Width + 5;
-                ChangeCodes.Margin = newMargin;
-
-                newMargin.Top += OutputMenu.ActualHeight + 5 + 5;
-                newMargin.Left = OutputMenu.Margin.Left;
-                CopyOutput.Margin = newMargin;
-
-                deleteOutputtRow = false;
+                OutputCoder.Width = 175 + OutputTopPanel.ActualWidth - 470;
             }
             else
             {
-                newMargin.Top = OutputCoder.Margin.Top;
-                newMargin.Left = OutputCoder.Margin.Left + OutputCoder.Width + 5;
-                ChangeCodes.Margin = newMargin;
-
-                newMargin.Top = OutputCoder.Margin.Top;
-                newMargin.Left = ChangeCodes.Margin.Left + ChangeCodes.ActualWidth + 5;
-                CopyOutput.Margin = newMargin;
-
-                deleteOutputtRow = true;
+                OutputCoder.Width = 175;
             }
-            
-            if (deleteInputRow && deleteOutputtRow)
-                MenuRow.Height = new GridLength(50);
-            else
-                MenuRow.Height = new GridLength(85);
-            */
+
+            MenuRow.Height = new GridLength(maxHeight);
         }
     }
 }

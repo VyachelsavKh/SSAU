@@ -70,14 +70,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Coders\Coder.cs" />
+    <Compile Include="Models\Coders\CoderResult.cs" />
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\DeltaCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\GammaCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\EliasCoders\OmegaCoder.cs" />
+    <Compile Include="Models\Coders\NumberCoders\HammingCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\NumberCoder.cs" />
+    <Compile Include="Models\Coders\NumberCoders\SystemCoders\BinCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\SystemCoders\DecimalCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\SystemCoders\HexCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\SystemCoders\OctCoder.cs" />
     <Compile Include="Models\Coders\NumberCoders\SystemCoders\SystemCoder.cs" />
+    <Compile Include="Models\Coders\StringCoders\SimpleString.cs" />
+    <Compile Include="Models\Coders\StringCoders\StringCoder.cs" />
+    <Compile Include="Models\Coders\StringCoders\SubstitutionCoder.cs" />
+    <Compile Include="Models\Coders\StringCoders\UnequalCoders\AlphabeticCoder.cs" />
+    <Compile Include="Models\Coders\StringCoders\UnequalCoders\UnequaCoder.cs" />
     <Compile Include="Models\FileWorker.cs" />
     <Compile Include="Models\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -105,5 +113,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

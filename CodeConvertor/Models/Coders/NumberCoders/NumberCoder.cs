@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeConvertor.Models.Coders.NumberCoders.SystemCoders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,31 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 {
     internal abstract class NumberCoder : Coder
     {
-        private string _delimiterString;
+        public abstract CoderResult<string> Encode(ulong n);
 
-        public string DelimiterString
+        public override CoderResult<string> Encode(string n)
         {
-            get { return _delimiterString; }
-            set { _delimiterString = value; }
-        }
-        public abstract string Encode(long n);
+            if (n == "")
+                return new CoderResult<string>("");
 
-        public override string Encode(string n)
-        {
-            return Encode(Int64.Parse(n));
+            return Encode(UInt64.Parse(n));
         }
 
-        public static char ConvertNumToSymbol(int n)
+        public abstract CoderResult<ulong> DecodeToDecimal(string n);
+
+        public override CoderResult<string> Decode(string s)
+        {
+            if (s == "")
+                return new CoderResult<string>("");
+
+            CoderResult<ulong> decodeResult = DecodeToDecimal(s);
+
+            CoderResult<string> result = new CoderResult<string>(decodeResult.Result.ToString(), decodeResult.Error);
+
+            return result;
+        }
+
+        protected static char ConvertNumToSymbol(int n)
         {
             if (n <= 9)
                 return (char)('0' + n);
@@ -30,7 +41,7 @@ namespace CodeConvertor.Models.Coders.NumberCoders
                 return (char)('A' + n - 10);
         }
 
-        public static string ConvertToSystem(long n, int basis = 2)
+        public static string ConvertToSystem(ulong n, uint basis = 2)
         {
             if (n == 0)
                 return "0";
@@ -46,7 +57,7 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             return ans.Reverse();
         }
 
-        public static int ConvertSymbolToNum(char c)
+        protected static int ConvertSymbolToNum(char c)
         {
             if (c >= '0' && c <= '9')
                 return c - '0';
@@ -58,13 +69,16 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             return -1;
         }
 
-        public static long? ConvertToDecimal(string n, int basis = 2)
+        public static ulong? ConvertToDecimal(string n, uint basis = 2)
         {
-            long ans = 0;
+            if (n == null) 
+                return null;
+
+            ulong ans = 0;
 
             for (int i = 0; i < n.Length; i++)
             {
-                if (ans >= long.MaxValue / 100)
+                if (ans >= long.MaxValue / 30)
                     return null;
 
                 ans *= basis;
@@ -77,18 +91,10 @@ namespace CodeConvertor.Models.Coders.NumberCoders
                 if (cur == -1)
                     return null;
 
-                ans += cur;
+                ans += (ulong)cur;
             }
 
             return ans;
-        }
-
-        public static string RemoveSeparator(string input, string separator)
-        {
-            if (separator != "")
-                return input.Replace(separator, "");
-
-            return input;
         }
 
         public static bool CheckOnZerosOnes(string s)
@@ -102,53 +108,87 @@ namespace CodeConvertor.Models.Coders.NumberCoders
             return true;
         }
 
-        public static string ConvertString(string inputString, NumberCoder left, NumberCoder right)
+        public static (string inputErrors, string outputResult, string outputErrors) TranslateString(string inputString, NumberCoder inputCoder, NumberCoder outputCoder)
         {
-            StringBuilder sb = new StringBuilder(inputString.Length);
+            string[] inputLines = inputString.GetLines();
 
-            inputString = inputString.Replace("\r", "");
+            StringBuilder inputErrors = new StringBuilder();
+            StringBuilder outputResults = new StringBuilder();
+            StringBuilder outputErrors = new StringBuilder();
 
-            string[] lines = inputString.Split('\n');
-
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < inputLines.Length; i++)
             {
-                string curLine = lines[i];
-
-                if (curLine == "")
+                if (inputLines[i] == "")
                 {
-                    sb.Append('\n');
+                    outputResults.Append("\n");
                     continue;
                 }
 
-                string outLine;
-
-                long? n;
-
-                try
+                if (inputCoder is BinCoder && outputCoder is HammingCoder)
                 {
-                    n = left.Decode(curLine);
+                    CoderResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
 
-                    try
+                    if (inputRes.IsOk())
                     {
-                        outLine = right.Encode(n.Value);
+                        CoderResult<string> outputRes = outputCoder.Encode(inputLines[i]);
+
+                        if (!outputRes.IsOk())
+                        {
+                            outputErrors.Append(outputRes.Error + "\n");
+                        }
+
+                        outputResults.Append(outputRes.Result + "\n");
                     }
-                    catch
+                    else
                     {
-                        outLine = "Не получилось закодировать: " + curLine;
+                        outputResults.Append("\n");
+                        inputErrors.Append(inputRes.Error + "\n");
                     }
                 }
-                catch
-                { 
-                    outLine = "Не получилось декодировать: " + curLine;
-                }
+                else if (inputCoder is HammingCoder && outputCoder is BinCoder)
+                {
+                    CoderResult<string> inputRes = inputCoder.Decode(inputLines[i]);
 
-                sb.Append(outLine);
-                sb.Append('\n');
+                    if (!inputRes.IsOk())
+                    {
+                        inputErrors.Append(inputRes.Error + "\n");
+                    }
+
+                    outputResults.Append(inputRes.Result + "\n");
+                }
+                else
+                {
+                    CoderResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
+
+                    if (inputRes.IsOk())
+                    {
+                        CoderResult<string> outputRes = outputCoder.Encode(inputRes.Result);
+
+                        if (!outputRes.IsOk())
+                        {
+                            outputErrors.Append(outputRes.Error + "\n");
+                        }
+
+                        outputResults.Append(outputRes.Result + "\n");
+                    }
+                    else
+                    {
+                        outputResults.Append("\n");
+                        inputErrors.Append(inputRes.Error + "\n");
+                    }
+                }
             }
 
-            sb.Remove(sb.Length - 1, 1);
+            if (inputErrors.Length > 1)
+                inputErrors.Remove(inputErrors.Length - 1, 1);
 
-            return sb.ToString();
+            if (outputResults.Length > 1)
+                outputResults.Remove(outputResults.Length - 1, 1);
+
+            if (outputErrors.Length > 1)
+                outputErrors.Remove(outputErrors.Length - 1, 1);
+
+            return (inputErrors.ToString(), outputResults.ToString(), outputErrors.ToString());
         }
     }
 }
