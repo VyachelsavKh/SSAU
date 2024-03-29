@@ -9,7 +9,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 {
     internal abstract class UnequalCoder : StringCoder
     {
-        protected class DecodingTree
+        protected class CodingTree
         {
             private class Node
             {
@@ -27,7 +27,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 
             private Node _root, _cur;
 
-            public DecodingTree()
+            public CodingTree()
             {
                 Clear();
             }
@@ -135,9 +135,9 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
             return new FunctionResult<string>(ans.ToString());
         }
 
-        protected static DecodingTree CreateDecodingTree(Dictionary<char, string> EncodingDictionary)
+        protected static CodingTree CreateDecodingTree(Dictionary<char, string> EncodingDictionary)
         {
-            DecodingTree tree = new DecodingTree();
+            CodingTree tree = new CodingTree();
 
             tree.MoveRoot();
 
@@ -218,7 +218,7 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
 
         protected virtual FunctionResult<string> Decode(Dictionary<char, string> codingDictionary, string s)
         {
-            DecodingTree decodingTree = CreateDecodingTree(codingDictionary);
+            CodingTree decodingTree = CreateDecodingTree(codingDictionary);
 
             StringBuilder ans = new StringBuilder(s.Length / 5);
 
@@ -258,6 +258,16 @@ namespace CodeConvertor.Models.Coders.StringCoders.UnequalCoders
                     successDecode = false;
                     break;
                 }
+            }
+
+            if (decodingTree.CurVertexLeaf())
+            {
+                ans.Append(decodingTree.GetValue());
+                decodingTree.MoveRoot();
+            }
+            else
+            {
+                return new FunctionResult<string>(ans.ToString(), "Не получилось декодировать, последний код остановился не в листе: " + s);
             }
 
             if (!successDecode)

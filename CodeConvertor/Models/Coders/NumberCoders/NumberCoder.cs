@@ -146,8 +146,11 @@ namespace CodeConvertor.Models.Coders.NumberCoders
                 {
                     FunctionResult<ulong> inputRes = inputCoder.DecodeToDecimal(inputLines[i]);
 
-                    if (inputRes.IsOk())
+                    if (inputRes.IsOk() || inputRes.ErrorCode == 2)
                     {
+                        if (inputRes.ErrorCode == 2)
+                            inputErrors.Append(inputRes.Error + "\n");
+
                         FunctionResult<string> outputRes = outputCoder.Encode(inputRes.Result);
 
                         if (!outputRes.IsOk())

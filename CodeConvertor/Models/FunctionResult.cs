@@ -10,13 +10,13 @@ namespace CodeConvertor.Models.Coders
     {
         private resultType _result;
         private string _error;
-        private bool _ok;
+        private int _errorCode;
 
         public FunctionResult(resultType result = default)
         {
             _result = result;
             _error = "";
-            _ok = true;
+            _errorCode = 0;
         }
 
         public FunctionResult(resultType result, string error)
@@ -25,15 +25,28 @@ namespace CodeConvertor.Models.Coders
             _error = error;
 
             if (error == "")
-                _ok = true;
+                _errorCode = 0;
             else
-                _ok = false;
+                _errorCode = 1;
+        }
+
+        public FunctionResult(resultType result, string error, int errorCode)
+        {
+            _result = result;
+            _error = error;
+
+            if (error == "")
+                _errorCode = 0;
+            else
+                _errorCode = errorCode;
         }
 
         public resultType Result { get { return _result; } }
 
         public string Error { get { return _error; } }
 
-        public bool IsOk() { return _ok; }
+        public int ErrorCode { get { return _errorCode; } }
+
+        public bool IsOk() { return _errorCode == 0; }
     }
 }

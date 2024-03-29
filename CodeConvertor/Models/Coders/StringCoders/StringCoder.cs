@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodeConvertor.Models.Coders.StringCoders.UnequalCoders;
+using System.Windows.Shapes;
 //using CodeConvertor.Models.Coders.StringCoders.UnequalCoders;
 
 namespace CodeConvertor.Models.Coders.StringCoders
@@ -44,11 +45,7 @@ namespace CodeConvertor.Models.Coders.StringCoders
 
             if (inputCoder is SimpleString)
             {
-                if (outputCoder is SimpleString)
-                {
-                    return ("", inputString, "");
-                }
-                else if (outputCoder is SubstitutionCoder)
+                if (outputCoder is SubstitutionCoder)
                 {
                     FunctionResult<string> outputRes = outputCoder.Encode(inputString);
 
@@ -59,7 +56,7 @@ namespace CodeConvertor.Models.Coders.StringCoders
 
                     outputResults.Append(outputRes.Result + "\n");
                 }
-                else if (outputCoder is UnequalCoder)
+                else
                 {
                     string[] inputLines = inputString.GetLines();
 
@@ -121,15 +118,9 @@ namespace CodeConvertor.Models.Coders.StringCoders
 
         protected static (FunctionResult<Dictionary<char, string>>, string decodeString, string remainingString) ReadCodingDictionary(string s)
         {
-            string[] InputLines = s.Split('\n');
+            string[] lines = s.GetLines();
 
             int codesCount;
-
-            string[] lines = new string[InputLines.Length];
-
-            for (int i = 0, j = 0; i < InputLines.Length; i++)
-                if (InputLines[i].Length != 0)
-                    lines[j++] = InputLines[i];
 
             try
             {
@@ -139,6 +130,9 @@ namespace CodeConvertor.Models.Coders.StringCoders
             {
                 return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать количество строк в таблице кодов"), null, null);
             }
+
+            if (codesCount < 0)
+                return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать количество строк в таблице кодов"), null, null);
 
             if (lines.Length < codesCount + 1)
                 return (new FunctionResult<Dictionary<char, string>>(null, "Не получилось считать таблицу кодов, мало строк кодов"), null, null);

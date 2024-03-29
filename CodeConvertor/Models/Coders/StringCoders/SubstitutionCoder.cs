@@ -40,6 +40,9 @@ namespace CodeConvertor.Models.Coders.StringCoders
                 return new FunctionResult<string>("", "Не получилось прочитать количество строк для кодирования");
             }
 
+            if (encodeStringCount < 0)
+                return new FunctionResult<string>("", "Не получилось прочитать количество строк для кодирования");
+
             string[] lines = encodeStrings.GetLines();
 
             StringBuilder ans = new StringBuilder();

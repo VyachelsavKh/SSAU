@@ -181,7 +181,7 @@ namespace CodeConvertor.Models.Coders.NumberCoders
 
             if (errorControlBitsSum != 0)
             {
-                return new FunctionResult<string>(str.ToString(), "Ошибка в " + errorControlBitsSum + " бите: " + s);
+                return new FunctionResult<string>(str.ToString(), "Ошибка в " + errorControlBitsSum + " бите: " + s, 2);
             }
 
             return new FunctionResult<string>(str.ToString());
@@ -191,9 +191,14 @@ namespace CodeConvertor.Models.Coders.NumberCoders
         {
             FunctionResult<string> res = Decode(n);
 
-            ulong result = ConvertToDecimal(res.Result).Result;
+            ulong result = 0;
 
-            return new FunctionResult<ulong>(result, res.Error);
+            if (res.IsOk() || res.ErrorCode == 2)
+            {
+                result = ConvertToDecimal(res.Result).Result;
+            }
+
+            return new FunctionResult<ulong>(result, res.Error, res.ErrorCode);
         }
     }
 }

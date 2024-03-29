@@ -77,6 +77,8 @@ namespace CodeConvertor
             {
                 new SimpleString(),
                 new AlphabeticCoder(),
+                new ShannonCoder(),
+                new HuffmanCoder(),
                 new SubstitutionCoder(),
             };
 
