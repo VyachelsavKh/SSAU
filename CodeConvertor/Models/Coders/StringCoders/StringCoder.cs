@@ -81,8 +81,6 @@ namespace CodeConvertor.Models.Coders.StringCoders
             }
             else
             {
-                inputString = inputString.Replace("\r", "");
-
                 string[] lines = inputString.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                 string toDecode = ConcatStrings(lines);

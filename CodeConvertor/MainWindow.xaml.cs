@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using CodeConvertor.Models.Coders;
 using CodeConvertor.Models.Coders.StringCoders;
 using CodeConvertor.Models.Coders.StringCoders.UnequalCoders;
+using CodeConvertor.Models.Coders.StringCoders.CompressionCoders;
 
 namespace CodeConvertor
 {
@@ -80,6 +81,7 @@ namespace CodeConvertor
                 new ShannonCoder(),
                 new HuffmanCoder(),
                 new SubstitutionCoder(),
+                new ArithmeticCoder(),
             };
 
             numberCoders = new NumberCoder[]
