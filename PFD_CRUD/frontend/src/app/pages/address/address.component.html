@@ -1,0 +1,74 @@
+<div class="page-container">
+    <div class="card">
+      <h2 class="form-title">Адрес проживания</h2>
+      
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <label>Город:</label>
+          <select formControlName="cityId" class="form-input">
+            <option value="">Выберите город</option>
+            <option *ngFor="let city of cities" [value]="city.id">
+              {{ city.name }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="form.get('cityId')?.invalid && form.get('cityId')?.touched">
+            Выберите город
+          </div>
+          <div class="server-error" *ngIf="serverErrors['cityId']">
+            {{ serverErrors['cityId'] }}
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Улица:</label>
+          <select formControlName="streetId" class="form-input">
+            <option value="">Выберите улицу</option>
+            <option *ngFor="let street of streets" [value]="street.id">
+              {{ street.name }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="form.get('streetId')?.invalid && form.get('streetId')?.touched">
+            Выберите улицу
+          </div>
+          <div class="server-error" *ngIf="serverErrors['streetId']">
+            {{ serverErrors['streetId'] }}
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Номер дома:</label>
+          <input type="number" formControlName="houseNumber" class="form-input" />
+          <div class="error-message" *ngIf="form.get('houseNumber')?.invalid && form.get('houseNumber')?.touched">
+            Введите номер дома
+          </div>
+          <div class="server-error" *ngIf="serverErrors['houseNumber']">
+            {{ serverErrors['houseNumber'] }}
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Номер квартиры:</label>
+          <input type="number" formControlName="apartmentNumber" class="form-input" />
+          <div class="error-message" *ngIf="form.get('apartmentNumber')?.invalid && form.get('apartmentNumber')?.touched">
+            Введите номер квартиры
+          </div>
+          <div class="server-error" *ngIf="serverErrors['apartmentNumber']">
+            {{ serverErrors['apartmentNumber'] }}
+          </div>
+        </div>
+  
+        <div class="button-group-vertical">
+          <button type="button" class="btn-restore" (click)="restore()">Восстановить</button>
+          <button type="submit" class="btn-save">Сохранить</button>
+          
+          <div class="server-error" *ngIf="serverErrors['general']">
+            {{ serverErrors['general'] }}
+          </div>
+          
+          <div class="success-message" *ngIf="successMessage">
+            {{ successMessage }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

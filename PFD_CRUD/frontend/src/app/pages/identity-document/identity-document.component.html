@@ -1,0 +1,59 @@
+<div class="page-container">
+  <div class="card">
+    <h2 class="form-title">Документ, удостоверяющий личность</h2>
+    
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="form-group">
+        <label>Тип документа:</label>
+        <select formControlName="documentTypeId" class="form-input">
+          <option value="">Выберите тип документа</option>
+          <option *ngFor="let type of documentTypes" [value]="type.id">
+            {{ type.name }}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="form.get('documentTypeId')?.invalid && form.get('documentTypeId')?.touched">
+          Выберите тип документа
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Серия:</label>
+        <input type="text" formControlName="series" class="form-input" />
+        <div class="error-message" *ngIf="form.get('series')?.invalid && form.get('series')?.touched">
+          Введите серию
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Номер:</label>
+        <input type="text" formControlName="number" class="form-input" />
+        <div class="error-message" *ngIf="form.get('number')?.invalid && form.get('number')?.touched">
+          Введите номер
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Дата выдачи:</label>
+        <input type="date" formControlName="issueDate" class="form-input" />
+      </div>
+
+      <div class="form-group">
+        <label>Кем выдан:</label>
+        <textarea formControlName="issuedBy" rows="3" class="form-textarea"></textarea>
+      </div>
+
+      <div class="button-group-vertical">
+        <button type="button" class="btn-restore" (click)="restore()">Восстановить</button>
+        <button type="submit" class="btn-save">Сохранить</button>
+        
+        <div *ngIf="serverError" class="server-error">
+          {{ serverError }}
+        </div>
+        
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

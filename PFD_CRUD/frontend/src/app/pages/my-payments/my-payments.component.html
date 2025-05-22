@@ -1,0 +1,52 @@
+<div class="payments-container">
+  <div class="payments-header">
+    <h2>Мои выплаты</h2>
+  </div>
+  
+  <div class="payments-table-container">
+    <table class="payments-table">
+      <thead class="table-header">
+        <tr>
+          <th (click)="toggleSort('paymentDate')" class="sortable-header">
+            <div class="header-content">
+              <span>Дата</span>
+              <div class="sort-icons">
+                <span class="sort-icon" [class.active]="isSortedAsc('paymentDate')">▲</span>
+                <span class="sort-icon" [class.active]="isSortedDesc('paymentDate')">▼</span>
+              </div>
+            </div>
+          </th>
+          <th (click)="toggleSort('amount')" class="sortable-header">
+            <div class="header-content">
+              <span>Сумма</span>
+              <div class="sort-icons">
+                <span class="sort-icon" [class.active]="isSortedAsc('amount')">▲</span>
+                <span class="sort-icon" [class.active]="isSortedDesc('amount')">▼</span>
+              </div>
+            </div>
+          </th>
+          <th (click)="toggleSort('paid')" class="sortable-header">
+            <div class="header-content">
+              <span>Статус</span>
+              <div class="sort-icons">
+                <span class="sort-icon" [class.active]="isSortedAsc('paid')">▲</span>
+                <span class="sort-icon" [class.active]="isSortedDesc('paid')">▼</span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        <tr *ngFor="let payment of payments" class="table-row">
+          <td>{{ payment.paymentDate | date:'dd.MM.yyyy' }}</td>
+          <td>{{ payment.amount | currency:'RUB':'symbol':'1.2-2' }}</td>
+          <td>
+            <span class="status-badge" [class.paid]="payment.paid" [class.unpaid]="!payment.paid">
+              {{ payment.paid ? 'Получено' : 'Не получено' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

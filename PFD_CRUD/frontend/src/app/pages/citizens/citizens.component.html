@@ -1,0 +1,104 @@
+<div class="citizens-container">
+  <div class="citizens-header">
+    <h2>Список граждан</h2>
+  </div>
+  
+  <div class="citizens-table-container">
+    <table class="citizens-table">
+      <thead class="table-header">
+        <tr>
+          <th class="filter-cell">
+            <div class="filter-label">Логин</div>
+            <input class="filter-input" type="text" [(ngModel)]="search.login" (input)="filterUsers()" placeholder="Фильтр...">
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Фамилия</div>
+            <input class="filter-input" type="text" [(ngModel)]="search.lastName" (input)="filterUsers()" placeholder="Фильтр...">
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Имя</div>
+            <input class="filter-input" type="text" [(ngModel)]="search.firstName" (input)="filterUsers()" placeholder="Фильтр...">
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Отчество</div>
+            <input class="filter-input" type="text" [(ngModel)]="search.middleName" (input)="filterUsers()" placeholder="Фильтр...">
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Тип документа</div>
+            <select class="filter-select" [(ngModel)]="search.documentTypeId" (change)="filterUsers()">
+              <option [ngValue]="null">Все</option>
+              <option *ngFor="let docType of docTypes" [ngValue]="docType.id">{{ docType.name }}</option>
+            </select>
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Серия</div>
+            <input class="filter-input" type="text" [(ngModel)]="search.series" (input)="filterUsers()" placeholder="Фильтр...">
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Номер</div>
+            <input class="filter-input" type="text" [(ngModel)]="search.number" (input)="filterUsers()" placeholder="Фильтр...">
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Город</div>
+            <select class="filter-select" [(ngModel)]="search.cityId" (change)="filterUsers()">
+              <option [ngValue]="null">Все</option>
+              <option *ngFor="let city of cities" [ngValue]="city.id">{{ city.name }}</option>
+            </select>
+          </th>
+          <th class="filter-cell">
+            <div class="filter-label">Улица</div>
+            <select class="filter-select" [(ngModel)]="search.streetId" (change)="filterUsers()">
+              <option [ngValue]="null">Все</option>
+              <option *ngFor="let street of streets" [ngValue]="street.id">{{ street.name }}</option>
+            </select>
+          </th>
+          <th>
+            <div class="filter-label">Дом</div>
+          </th>
+          <th>
+            <div class="filter-label">Кв.</div>
+          </th>
+          <th class="actions-header">
+            <div class="filter-label">Действия</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        <tr *ngFor="let user of filteredUsers" class="table-row">
+          <td>{{ user.login || '-' }}</td>
+          <td>{{ user.description?.lastName || '-' }}</td>
+          <td>{{ user.description?.firstName || '-' }}</td>
+          <td>{{ user.description?.middleName || '-' }}</td>
+          <td>{{ getDocTypeName(user.document?.documentTypeId) || '-' }}</td>
+          <td>{{ user.document?.series || '-' }}</td>
+          <td>{{ user.document?.number || '-' }}</td>
+          <td>{{ getCityName(user.address?.cityId) || '-' }}</td>
+          <td>{{ getStreetName(user.address?.streetId) || '-' }}</td>
+          <td>{{ user.address?.houseNumber || '-' }}</td>
+          <td>{{ user.address?.apartmentNumber || '-' }}</td>
+          <td class="actions-cell">
+            <button *ngIf="hasRole('ROLE_WORKER')" class="action-btn payment-btn" (click)="payments(user.id)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Выплаты</span>
+            </button>
+            <button *ngIf="hasRole('ROLE_ADMIN')" class="action-btn role-btn" (click)="openRoleModal(user)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+              <span>Роль</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-edit-user-role-modal
+  *ngIf="showRoleModal"
+  [userId]="selectedUserId!"
+  [userLogin]="selectedUserLogin"
+  (closed)="closeRoleModal()"
+></app-edit-user-role-modal>

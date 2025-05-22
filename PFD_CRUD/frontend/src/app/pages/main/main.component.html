@@ -1,0 +1,38 @@
+<div class="app-container">
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <nav class="sidebar">
+    <div class="user-login">
+      {{ currentUserLogin }}
+    </div>
+    
+    <ul class="nav-list">
+      <li *ngIf="hasRole('ROLE_USER')" class="nav-item">
+        <a routerLink="my-payments" class="nav-link">Мои выплаты</a>
+      </li>
+      <li *ngIf="hasRole('ROLE_USER')" class="nav-item">
+        <a routerLink="personal-data" class="nav-link">Личные данные</a>
+      </li>
+      <li *ngIf="hasRole('ROLE_USER')" class="nav-item">
+        <a routerLink="identity-document" class="nav-link">Документ, удостоверяющий личность</a>
+      </li>
+      <li *ngIf="hasRole('ROLE_USER')" class="nav-item">
+        <a routerLink="address" class="nav-link">Адрес проживания</a>
+      </li>
+
+      <li *ngIf="hasRole('ROLE_WORKER')" class="nav-item">
+        <a routerLink="citizens" class="nav-link">Граждане</a>
+      </li>
+
+      <li *ngIf="hasRole('ROLE_ADMIN')" class="nav-item">
+        <a routerLink="dictionaries" class="nav-link">Словари</a>
+      </li>
+
+      <li class="nav-item logout-item">
+        <button class="logout-btn" (click)="logout()">Выйти</button>
+      </li>
+    </ul>
+  </nav>
+</div>

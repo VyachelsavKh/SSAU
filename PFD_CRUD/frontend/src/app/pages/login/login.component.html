@@ -1,0 +1,63 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2 class="login-title">Авторизация</h2>
+    
+    <form [formGroup]="form" class="login-form" (ngSubmit)="onLogin()">
+      <div class="form-field">
+        <label class="input-label">Логин</label>
+        <input 
+          #loginInput
+          type="text" 
+          formControlName="login" 
+          class="input-field"
+          [ngClass]="{'input-error': form.get('login')?.touched && form.get('login')?.invalid}"
+          placeholder="Введите ваш логин"
+          (keydown.enter)="focusPassword($event)"
+          autofocus
+        />
+        <div class="error-message" *ngIf="form.get('login')?.touched && form.get('login')?.hasError('required')">
+          Введите логин
+        </div>
+        <div class="error-message server-error" *ngIf="serverErrors['login']">
+          {{ serverErrors['login'] }}
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="input-label">Пароль</label>
+        <input 
+          #passwordInput
+          type="password" 
+          formControlName="password" 
+          class="input-field"
+          [ngClass]="{'input-error': form.get('password')?.touched && form.get('password')?.invalid}"
+          placeholder="Введите ваш пароль"
+          (keydown.enter)="onLogin()"
+        />
+        <div class="error-message" *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">
+          Введите пароль
+        </div>
+        <div class="error-message server-error" *ngIf="serverErrors['password']">
+          {{ serverErrors['password'] }}
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button 
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="form.invalid"
+        >
+          Войти
+        </button>
+        <button 
+          type="button" 
+          (click)="onRegister()" 
+          class="btn btn-secondary"
+        >
+          Зарегистрироваться
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

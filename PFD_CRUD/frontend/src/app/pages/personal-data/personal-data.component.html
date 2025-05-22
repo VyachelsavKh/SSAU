@@ -1,0 +1,62 @@
+<div class="page-container">
+    <div class="card">
+    <h2 class="form-title">Личные данные</h2>
+
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <label>Фамилия:</label>
+          <input type="text" formControlName="lastName" class="form-input" />
+          <div class="error-message" *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched">
+            Введите фамилию
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Имя:</label>
+          <input type="text" formControlName="firstName" class="form-input" />
+          <div class="error-message" *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched">
+            Введите имя
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Отчество:</label>
+          <input type="text" formControlName="middleName" class="form-input" />
+          <div class="error-message" *ngIf="form.get('middleName')?.invalid && form.get('middleName')?.touched">
+            Введите отчество
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Дата рождения:</label>
+          <input type="date" formControlName="birthDate" class="form-input" />
+          <div class="error-message" *ngIf="form.get('birthDate')?.invalid && form.get('birthDate')?.touched">
+            Выберите дату рождения
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Пол:</label>
+          <select formControlName="gender" class="form-input">
+            <option value="">Не выбран</option>
+            <option *ngFor="let gender of genders" [value]="gender.value">
+              {{ gender.label }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="button-group-vertical">
+          <button type="button" class="btn-restore" (click)="restore()">Восстановить</button>
+          <button type="submit" class="btn-save">Сохранить</button>
+          
+          <div *ngIf="serverError" class="server-error">
+            {{ serverError }}
+          </div>
+          
+          <div *ngIf="successMessage" class="success-message">
+            {{ successMessage }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
